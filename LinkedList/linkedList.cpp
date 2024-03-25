@@ -1,102 +1,127 @@
 #include <iostream>
 using namespace std;
 
-class NewNode{
+class Node{
     public:
-        char identifier;
-        NewNode *nextNode;
+        char id;
+        Node *next;
 
-        NewNode(){
-            nextNode = NULL;
+        Node(){
+            next = NULL;
         }
 };
 
-class NewLinkedList{
+class LinkedList{
     public:
-        NewNode *start;
-        NewNode *end;
+        Node *head;
+        Node *tail;
 
-        NewLinkedList(){
-            start = end = NULL;
+        LinkedList(){
+            head = tail = NULL;
         }
 
-        void addAtStart(char data){
-            NewNode *node = new NewNode;
-            node -> identifier = data;
+        void insertToHead(char data){
+            Node *node = new Node;
+            node -> id = data;
 
-            if(start == NULL){
-                start = end = node;
+            if(head == NULL){
+                head = tail = node;
             }else{
-                NewNode *temp = start;
-                start = node;
-                start -> nextNode = temp;
+                Node *tmp = head;
+                head = node;
+                head -> next = tmp;
             }
         }
 
-        void addAtEnd(char data){
-            NewNode *node = new NewNode;
-            node -> identifier = data;
+        void insertToTail(char data){
+            Node *node = new Node;
+            node -> id = data;
 
-            if(start == NULL){
-                start = end = node;
+            if(head == NULL){
+                head = tail = node;
             }else{
-                end -> nextNode = node;
-                end = node;
+                tail -> next = node;
+                tail = node;
             }
             
         }
 
-        void displayAll(){
-            NewNode *temp = start;
-            while(temp != NULL){
-                cout << temp -> identifier  << endl;
-                temp = temp -> nextNode;
+        void insertDataAfter(char data, char after){
+            if(head == NULL){
+                cout << "Error : LinkedList is Empty!" << endl;
+            }else if(after == tail->id){
+                insertToTail(data);
+            }else{
+                Node *tmp = head;
+                while(tmp != NULL && tmp->id!=after){
+                    tmp = tmp->next;
+                }
+
+                if(tmp == NULL){
+                    cout << "After data not found" << endl;
+                }else{
+                    Node*newNode = new Node();
+                    newNode->id = data;
+                    
+                    newNode->next = tmp->next;
+                    tmp->next = newNode;
+                }
+            }
+        }
+
+        void printAll(){
+            Node *tmp = head;
+            while(tmp != NULL){
+                cout << tmp -> id << " > ";
+                tmp = tmp -> next;
             }
         }
 };
 
 int main(){
-    NewLinkedList *newList = new NewLinkedList();
+    LinkedList *list1 = new LinkedList();
 
-    NewNode *nNode1 = new NewNode();
-    nNode1 -> identifier = 'A';
+    Node *node1 = new Node();
+    node1 -> id = 'A';
 
-    newList -> start = nNode1;
-    newList -> end = nNode1;
+    list1 -> head = node1;
+    list1 -> tail = node1;
 
-    cout << newList -> start -> identifier << endl;
-    cout << newList -> end -> identifier << endl;
+    cout << list1 -> head -> id << endl;
+    cout << list1 -> tail -> id << endl;
 
-    // Insert at the end
-    NewNode *nNode2 = new NewNode();
-    nNode2 -> identifier = 'B';
+    // insert to tail
+    Node *node2 = new Node();
+    node2 -> id = 'B';
 
-    newList -> end -> nextNode = nNode2;
-    newList -> end = nNode2;
+    list1 -> tail -> next = node2;
+    list1 -> tail = node2;
 
-    cout << newList -> start -> identifier << endl;
-    cout << newList -> end -> identifier << endl;
+    cout << list1 -> head -> id << endl;
+    cout << list1 -> tail -> id << endl;
 
-    // Insert at the start
-    NewNode *nNodeX = new NewNode();
-    nNodeX -> identifier = 'X';
+    //insert to head
+    Node *nodeX = new Node();
+    nodeX -> id = 'X';
 
-    NewNode *tempNode = newList -> start;
-    newList -> start = nNodeX;
-    newList -> start -> nextNode = tempNode;
+    Node *tmp = list1 -> head;
+    list1 -> head = nodeX;
+    list1 -> head -> next = tmp;
 
-    cout << newList -> start -> identifier << endl;
-    cout << newList -> end -> identifier << endl;
+    cout << list1 -> head -> id << endl;
+    cout << list1 -> tail -> id << endl;
 
 
-    // After creating functions
-    newList -> addAtStart('Y');
-    newList -> addAtEnd('C');
+    // After creating function
+    list1 -> insertToHead('Y');
+    list1 -> insertToTail('C');
 
-    cout << newList -> start -> identifier << endl;
-    cout << newList -> end -> identifier << endl;
+    cout << list1 -> head -> id << endl;
+    cout << list1 -> tail -> id << endl;
+
+    list1 -> insertDataAfter('Z', 'K');
 
     cout << endl;
 
-    newList -> displayAll();
+    list1 -> printAll();
 }
