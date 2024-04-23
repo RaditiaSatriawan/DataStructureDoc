@@ -63,17 +63,32 @@ class BinaryTree {
         }
 
         // Function to perform inorder traversal of the binary tree
-        Node* inOrderTraversal(Node* node) {
+        Node* inOrderRecursive(Node* node) {
             if (node != NULL) {
-                inOrderTraversal(node->left);
+                inOrderRecursive(node->left);
                 cout << node->data << " ";
-                inOrderTraversal(node->right);
+                inOrderRecursive(node->right);
             }
         }
 
         // Function to perform inorder traversal of the binary tree (wrapper function)
         void inOrderTraversal() {
-            inOrderTraversal(root);
+            inOrderRecursive(root);
+            cout << endl;
+        }
+
+        // Recursive function to do post order recursive
+        Node* postOrderRecursive(Node *currentNode){
+            if(currentNode != NULL){
+                postOrderRecursive(currentNode->left);
+                postOrderRecursive(currentNode->right);
+                cout << currentNode->data << " ";
+            }
+        }
+
+        // Function to perform post order traversal of the binary tree (wrapper function)
+        void postOrderTraversal(){
+            postOrderRecursive(root);
             cout << endl;
         }
 };
@@ -89,6 +104,8 @@ int main() {
     bin1->insert(3);
 
     bin1->preOrderTraversal();
+    bin1->inOrderTraversal();
+    bin1->postOrderTraversal();
 
 
     return 0;
